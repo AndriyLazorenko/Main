@@ -1,9 +1,6 @@
 package Diploma;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.Iterator;
+import java.io.*;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -13,77 +10,173 @@ public class RAllele extends Allele {
     private int ta = 0;
     private int ct = 0;
     private int ca = 0;
-    private int totalSNP=0;
+    private int totalSNP = 0;
     private Set<String> outputSet = new LinkedHashSet<>();
     private double ttFreq;
     private double taFreq;
     private double ctFreq;
     private double caFreq;
     private double totalFreq;
-    private Set<String> aggegatedResults = new LinkedHashSet<>();
 
     //Main processing algorithm
 
-    public Set<String> processR () {
+    public Set<String> processR() {
         for (String s : getSet()) {
             if (s.contains("A/G\tTT")) {
-                tt++;
+                setTt(getTt() + 1);
             } else if (s.contains("A/G\tTA")) {
-                ta++;
+                setTa(getTa() + 1);
             } else if (s.contains("A/G\tCT")) {
-                ct++;
+                setCt(getCt() + 1);
             } else if (s.contains("A/G\tCA")) {
-                ca++;
+                setCa(getCa() + 1);
             }
             setI(getI() + 1);
         }
-        totalSNP = tt + ta + ct + ca;
-        ttFreq = (double) tt/getI();
-        taFreq = (double) ta/getI();
-        caFreq = (double) ca/getI();
-        ctFreq = (double) ct/getI();
-        totalFreq = (double) totalSNP/getI();
+        setTotalSNP(getTt() + getTa() + getCt() + getCa());
+        setTtFreq((double) getTt() / getI());
+        setTaFreq((double) getTa() / getI());
+        setCaFreq((double) getCa() / getI());
+        setCtFreq((double) getCt() / getI());
+        setTotalFreq((double) getTotalSNP() / getI());
 
         //Creating an output queue
 
-        outputSet.add("Total number of A/G TT = " + tt);
-        outputSet.add("Total number of A/G TA = " + ta);
-        outputSet.add("Total number of A/G CT = " + ct);
-        outputSet.add("Total number of A/G CA = " + ca);
-        outputSet.add("Total SNP's in R allele = " + totalSNP);
-        outputSet.add("Total strings of genetic code analyzed = " + getI());
-        outputSet.add("Frequency of A/G TT total occurrence  = " + ttFreq);
-        outputSet.add("Frequency of A/G TA total occurrence  = " + taFreq);
-        outputSet.add("Frequency of A/G CT total occurrence  = " + ctFreq);
-        outputSet.add("Frequency of A/G CA total occurrence  = " + caFreq);
-        outputSet.add("Frequency of SNP's in R total occurrence  = " + totalFreq);
-        return outputSet;
+        getOutputSet().add("Total number of A/G TT = " + getTt());
+        getOutputSet().add("Total number of A/G TA = " + getTa());
+        getOutputSet().add("Total number of A/G CT = " + getCt());
+        getOutputSet().add("Total number of A/G CA = " + getCa());
+        getOutputSet().add("Total SNP's in R allele = " + getTotalSNP());
+        getOutputSet().add("Total strings of genetic code analyzed = " + getI());
+        getOutputSet().add("Frequency of A/G TT total occurrence  = " + getTtFreq());
+        getOutputSet().add("Frequency of A/G TA total occurrence  = " + getTaFreq());
+        getOutputSet().add("Frequency of A/G CT total occurrence  = " + getCtFreq());
+        getOutputSet().add("Frequency of A/G CA total occurrence  = " + getCaFreq());
+        getOutputSet().add("Frequency of SNP's in R total occurrence  = " + getTotalFreq());
+        return getOutputSet();
     }
 
     //Printing the queue
 
-    public void print () {
-        for (String s : outputSet) {
+    public void print() {
+        for (String s : getOutputSet()) {
             System.out.println(s);
         }
     }
-        //Writing the result in file
+    //Writing the result in file
 
     public void toFile() throws IOException {
         File file = new File(getFileName());
         FileWriter fw = new FileWriter(file.getAbsoluteFile());
-        for (String s:outputSet) {
-            fw.write(s+"\n");
+        for (String s : getOutputSet()) {
+            fw.write(s + "\n");
         }
         fw.close();
     }
 
-//    public void resultsAggregator() {
-//        Iterator iter =outputSet.iterator();
-//        while (iter.hasNext()){
-//            String s = iter.toString();
-//            iter.next();
-//        }
-//
-//    }
+    public void erase() {
+        setI(0);
+        setTotalSNP(0);
+        setCt(0);
+        setCa(0);
+        setTa(0);
+        setTt(0);
+        setOutputSet(null);
+        setSet(null);
+        setCaFreq(0);
+        setCtFreq(0);
+        setTaFreq(0);
+        setTtFreq(0);
+        setTotalFreq(0);
+    }
+
+    public int getTt() {
+        return tt;
+    }
+
+    public void setTt(int tt) {
+        this.tt = tt;
+    }
+
+    public int getTa() {
+        return ta;
+    }
+
+    public void setTa(int ta) {
+        this.ta = ta;
+    }
+
+    public int getCt() {
+        return ct;
+    }
+
+    public void setCt(int ct) {
+        this.ct = ct;
+    }
+
+    public int getCa() {
+        return ca;
+    }
+
+    public void setCa(int ca) {
+        this.ca = ca;
+    }
+
+    public int getTotalSNP() {
+        return totalSNP;
+    }
+
+    public void setTotalSNP(int totalSNP) {
+        this.totalSNP = totalSNP;
+    }
+
+    public Set<String> getOutputSet() {
+        return outputSet;
+    }
+
+    public void setOutputSet(Set<String> outputSet) {
+        this.outputSet = outputSet;
+    }
+
+    public double getTtFreq() {
+        return ttFreq;
+    }
+
+    public void setTtFreq(double ttFreq) {
+        this.ttFreq = ttFreq;
+    }
+
+    public double getTaFreq() {
+        return taFreq;
+    }
+
+    public void setTaFreq(double taFreq) {
+        this.taFreq = taFreq;
+    }
+
+    public double getCtFreq() {
+        return ctFreq;
+    }
+
+    public void setCtFreq(double ctFreq) {
+        this.ctFreq = ctFreq;
+    }
+
+    public double getCaFreq() {
+        return caFreq;
+    }
+
+    public void setCaFreq(double caFreq) {
+        this.caFreq = caFreq;
+    }
+
+    public double getTotalFreq() {
+        return totalFreq;
+    }
+
+    public void setTotalFreq(double totalFreq) {
+        this.totalFreq = totalFreq;
+    }
 }
+
+
