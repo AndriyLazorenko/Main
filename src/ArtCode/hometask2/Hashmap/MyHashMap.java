@@ -1,42 +1,44 @@
 package ArtCode.hometask2.Hashmap;
 
-import java.util.Collection;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by Lazorenko on 23.04.2015.
  */
 public class MyHashMap <K,V> implements Map<K,V> {
-    private Entry[] mas;
+    private Entry[] table;
     private double loadFactor = 0.75;
-    private int masSize = 10;
+    private int capacity = 10;
     private int size = 0;
 
     public MyHashMap() {
-        this.mas = (Entry[]) new Object[masSize];
+        table = (Entry[])new Object[capacity];
     }
 
     @Override
     public int size() {
-        return 0;
+        return table.length;
     }
 
+    //После реализации итератора
     @Override
     public boolean isEmpty() {
         return false;
     }
 
+    //После реализации итератора
     @Override
     public boolean containsKey(Object key) {
         return false;
     }
 
+    //После реализации итератора
     @Override
     public boolean containsValue(Object value) {
         return false;
     }
 
+    //После реализации итератора
     @Override
     public V get(Object key) {
         return null;
@@ -45,12 +47,13 @@ public class MyHashMap <K,V> implements Map<K,V> {
     @Override
     public V put(K key, V value) {
         int hash = key.hashCode();
-        int position = hash % masSize;
+        int position = hash % capacity;
 
-        if(mas[position] == null){
-            mas[position] = new Entry(key,value);
+        if(table[position] == null){
+            table[position] = new Entry(key,value);
+
         } else {
-            Entry iter = mas[position];
+            Entry iter = table[position];
             while (iter.next != null){
                 if(iter.key.equals(key)){
                     V forRet = iter.value;
@@ -61,7 +64,6 @@ public class MyHashMap <K,V> implements Map<K,V> {
             }
             iter.next = new Entry(key,value);
         }
-
 
         return null;
     }
@@ -83,6 +85,7 @@ public class MyHashMap <K,V> implements Map<K,V> {
 
     @Override
     public Set<K> keySet() {
+
         return null;
     }
 
@@ -96,7 +99,7 @@ public class MyHashMap <K,V> implements Map<K,V> {
         return null;
     }
 
-    private class Entry {
+    private class Entry extends Object{
 
         K key;
         V value;
@@ -106,7 +109,6 @@ public class MyHashMap <K,V> implements Map<K,V> {
             this.key = key;
             this.value = value;
         }
-
 
     }
 
