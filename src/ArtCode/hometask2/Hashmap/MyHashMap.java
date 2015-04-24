@@ -6,24 +6,31 @@ import java.util.*;
  * Created by Lazorenko on 23.04.2015.
  */
 public class MyHashMap <K,V> implements Map<K,V> {
-    private Entry[] table;
+    private Entry<K,V>[] table;
     private double loadFactor = 0.75;
-    private int capacity = 10;
+    private static final int initialCapacity = 15;
+    private int currentCapacity = initialCapacity;
     private int size = 0;
 
     public MyHashMap() {
-        table = (Entry[])new Object[capacity];
+        this.table = new Entry[currentCapacity];
     }
 
     @Override
     public int size() {
-        return table.length;
+        Iterator iter = keySet().iterator();
+        while(iter.hasNext()){
+            size = size++;
+        }
+        return size;
     }
 
-    //После реализации итератора
     @Override
     public boolean isEmpty() {
-        return false;
+        if (keySet().isEmpty()){
+            return true;
+        }
+        else return false;
     }
 
     //После реализации итератора
@@ -46,8 +53,12 @@ public class MyHashMap <K,V> implements Map<K,V> {
 
     @Override
     public V put(K key, V value) {
+        keySet().add(key);
+        values().add(value);
+        //entrySet().add(key,value);
+
         int hash = key.hashCode();
-        int position = hash % capacity;
+        int position = hash % currentCapacity;
 
         if(table[position] == null){
             table[position] = new Entry(key,value);
@@ -56,7 +67,7 @@ public class MyHashMap <K,V> implements Map<K,V> {
             Entry iter = table[position];
             while (iter.next != null){
                 if(iter.key.equals(key)){
-                    V forRet = iter.value;
+                    V forRet = (V)iter.value;
                     iter.value = value;
                     return forRet;
                 }
@@ -85,8 +96,8 @@ public class MyHashMap <K,V> implements Map<K,V> {
 
     @Override
     public Set<K> keySet() {
-
-        return null;
+        Set<K> keyS = new LinkedHashSet<>();
+        return keyS;
     }
 
     @Override
@@ -99,7 +110,7 @@ public class MyHashMap <K,V> implements Map<K,V> {
         return null;
     }
 
-    private class Entry extends Object{
+    private class Entry<K,V>{
 
         K key;
         V value;
