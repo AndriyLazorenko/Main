@@ -226,8 +226,14 @@ public class MyHashMap <K,V> implements Map<K,V> {
     @Override
     public void clear() {
         for (Object o:keyS){
-            remove(o);
+            //Rewrite
+            Entry[] newTable = new Entry [initialCapacity];
+            table =  newTable;
         }
+        entS.clear();
+        vals.clear();
+        keyS.clear();
+        size = 0;
     }
 
     @Override
