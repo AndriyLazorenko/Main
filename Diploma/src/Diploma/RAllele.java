@@ -1,6 +1,5 @@
 package Diploma;
 
-import java.io.*;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -10,13 +9,10 @@ public class RAllele extends Allele {
     private int ta = 0;
     private int ct = 0;
     private int ca = 0;
-    private int totalSNP = 0;
-    private Set<String> outputSet = new LinkedHashSet<>();
     private double ttFreq;
     private double taFreq;
     private double ctFreq;
     private double caFreq;
-    private double totalFreq;
 
     //Main processing algorithm
 
@@ -47,31 +43,13 @@ public class RAllele extends Allele {
         getOutputSet().add("Total number of A/G CT = " + getCt());
         getOutputSet().add("Total number of A/G CA = " + getCa());
         getOutputSet().add("Total SNP's in R allele = " + getTotalSNP());
-        getOutputSet().add("Total strings of genetic code analyzed = " + getI());
+        getOutputSet().add("Total strings of genetic code analysed = " + getI());
         getOutputSet().add("Frequency of A/G TT total occurrence  = " + getTtFreq());
         getOutputSet().add("Frequency of A/G TA total occurrence  = " + getTaFreq());
         getOutputSet().add("Frequency of A/G CT total occurrence  = " + getCtFreq());
         getOutputSet().add("Frequency of A/G CA total occurrence  = " + getCaFreq());
         getOutputSet().add("Frequency of SNP's in R total occurrence  = " + getTotalFreq());
         return getOutputSet();
-    }
-
-    //Printing the queue
-
-    public void print() {
-        for (String s : getOutputSet()) {
-            System.out.println(s);
-        }
-    }
-    //Writing the result in file
-
-    public void toFile() throws IOException {
-        File file = new File(getFileName());
-        FileWriter fw = new FileWriter(file.getAbsoluteFile());
-        for (String s : getOutputSet()) {
-            fw.write(s + "\n");
-        }
-        fw.close();
     }
 
     public void erase() {
@@ -81,8 +59,8 @@ public class RAllele extends Allele {
         setCa(0);
         setTa(0);
         setTt(0);
-        setOutputSet(null);
-        setSet(null);
+        setOutputSet(new LinkedHashSet<String>());
+        setSet(new LinkedHashSet<String>());
         setCaFreq(0);
         setCtFreq(0);
         setTaFreq(0);
@@ -122,22 +100,6 @@ public class RAllele extends Allele {
         this.ca = ca;
     }
 
-    public int getTotalSNP() {
-        return totalSNP;
-    }
-
-    public void setTotalSNP(int totalSNP) {
-        this.totalSNP = totalSNP;
-    }
-
-    public Set<String> getOutputSet() {
-        return outputSet;
-    }
-
-    public void setOutputSet(Set<String> outputSet) {
-        this.outputSet = outputSet;
-    }
-
     public double getTtFreq() {
         return ttFreq;
     }
@@ -170,13 +132,6 @@ public class RAllele extends Allele {
         this.caFreq = caFreq;
     }
 
-    public double getTotalFreq() {
-        return totalFreq;
-    }
-
-    public void setTotalFreq(double totalFreq) {
-        this.totalFreq = totalFreq;
-    }
 }
 
 

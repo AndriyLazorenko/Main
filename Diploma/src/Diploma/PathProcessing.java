@@ -3,10 +3,9 @@ package Diploma;
 import java.io.*;
 
 /**
- * Created by Lazorenko on 21.04.2015.
+ * Created by Master on 28-Apr-15.
  */
-public class FileInput {
-
+public abstract class PathProcessing {
     private BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     private boolean locationIsCorrect;
     private String fileLocation;
@@ -14,34 +13,7 @@ public class FileInput {
     private String fileName;
     private FileReader fileReader;
 
-    //Ask user about file location with data to be read. Cycle makes sure the program runs until the correct file location is found
-
-    public FileReader input() throws IOException {
-
-        do {
-            setLocationIsCorrect(true);
-            System.out.println("Insert file location from Windows Explorer");
-            setFileLocation(getBr().readLine());
-            setAdjustedFileLocation(getFileLocation().replaceAll("\\\\", "\\\\\\\\"));
-            if (getAdjustedFileLocation().contains(".txt")) {
-
-            } else {
-                System.out.println("Insert file name in following format: Filename.txt");
-                setFileName(getBr().readLine());
-                setAdjustedFileLocation(getAdjustedFileLocation() + "\\\\\\\\" + getFileName());
-            }
-
-            //Checking the file path
-
-            try {
-                setFileReader(new FileReader(getAdjustedFileLocation()));
-            } catch (FileNotFoundException e) {
-                System.err.println("File location is incorrect. Try again =)");
-                setLocationIsCorrect(false);
-            }
-        } while (isLocationIsCorrect() ==false);
-        return getFileReader();
-    }
+    public abstract FileReader input() throws IOException;
 
     public BufferedReader getBr() {
         return br;

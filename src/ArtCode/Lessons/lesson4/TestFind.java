@@ -6,6 +6,6 @@ package ArtCode.Lessons.lesson4;
 public class TestFind {
     public static void main(String[] args) {
         Find f = new Find();
-        f.find ("G:\\Programming","a");
+//        f.find ("G:\\Programming","a");
     }
 }

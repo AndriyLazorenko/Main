@@ -1,4 +1,4 @@
-package PG;
+package Test;
 
 import javax.swing.*;
 
@@ -8,7 +8,7 @@ import javax.swing.*;
 public class Hello {
     public static void main (String[] args){
         System.out.println("Thanks a lot for your time =)");
-        JOptionPane.showMessageDialog(null,"Ololo");
+//        JOptionPane.showMessageDialog(null,"Ololo");
     }
 
 }
