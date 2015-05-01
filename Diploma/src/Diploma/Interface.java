@@ -5,8 +5,9 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.LinkedHashSet;
+import java.util.Map;
 import java.util.Set;
-import java.util.TreeSet;
 
 public class Interface {
     FileInput fileInput = new FileInput();
@@ -16,11 +17,13 @@ public class Interface {
     private String allele;
     private FileReader fileReader;
     private String oldFileName;
-    private Set <String> set = new TreeSet<>();
+    private Set <String> set = new LinkedHashSet<>();
     private String goOn;
     private boolean carryOn = true;
     private String allFolder;
-    private FileReader folderReader;
+    private String folderLocation;
+    private Map<String,FileReader> folderFiles;
+    private int counterOfFilesProcessed=0;
 
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
@@ -51,11 +54,70 @@ public class Interface {
 
             System.out.println("Do you want to process ENTIRE folder? Y/N");
             allFolder = br.readLine();
-            if (allFolder == "y" || allFolder == "Y") {
+            if (allFolder.equals("y") || allFolder.equals("Y")) {
 
-                //Realize interface for folder in interface class
-                fileReader = folder.input();
+                //Asking for folder location with a simple verification
 
+                folderLocation = folder.inputFolder();
+
+                // Asking for Variation Allele + verification
+
+                allele = av.ask();
+
+                //Processing specific Allele depending on input
+
+                if (allele.equals("R")) {
+                    folderFiles = folder.input(folderLocation);
+                    for (String s:folderFiles.keySet()){
+                        r.process(folderFiles.get(s), s);
+                        set = r.processR();
+                        rDB.setTt(rDB.getTt() + r.getTt());
+                        rDB.setTa(rDB.getTa() + r.getTa());
+                        rDB.setCa(rDB.getCa() + r.getCa());
+                        rDB.setCt(rDB.getCt() + r.getCt());
+                        rDB.setTotalSNP(rDB.getTotalSNP() + r.getTotalSNP());
+                        rDB.setI(rDB.getI() + r.getI());
+                        counterOfFilesProcessed++;
+                        r.erase();
+                        set.clear();
+                    }
+                    System.out.println(counterOfFilesProcessed+" files processed from folder");
+                    counterOfFilesProcessed=0;
+                    //Working with database upon choice
+
+                    System.out.println("Do you want to work with database? Y/N");
+                    String choiceWork = br.readLine();
+                    if (choiceWork.equals("Y") || choiceWork.equals("y")) {
+
+                        //Writing database to file upon choice
+
+                        System.out.println("Do you want to write database to file? Y/N");
+                        String choiceWrite = br.readLine();
+                        if (choiceWrite.equals("Y") || choiceWrite.equals("y")) {
+                            rDB.regularize();
+                            rDB.toFile(folderLocation+"\\\\\\\\"+"smth.txt");
+                            rDB.clearSet();
+                        }
+
+                        //Printing database upon choice
+
+                        System.out.println("Do you want to print database? Y/N");
+                        String choicePrint = br.readLine();
+                        if (choicePrint.equals("Y") || choicePrint.equals("y")) {
+                            rDB.regularize();
+                            rDB.print();
+                            rDB.clearSet();
+                        }
+
+                        //Erasing database upon choice
+
+                        System.out.println("Do you want to ERASE ENTIRE DATABASE? Y/N");
+                        String choiceErase = br.readLine();
+                        if (choiceErase.equals("Y") || choiceErase.equals("y")) {
+                            rDB.erase();
+                        }
+                    }
+                }
             }
             else {
 
