@@ -45,7 +45,7 @@ public class RAlleleResultsDB extends RAllele {
     public void erase() {
         System.out.println("Do you want to erase all results? Y/N");
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        String eraseChoice = null;
+        String eraseChoice;
         try {
             eraseChoice = br.readLine();
             if (eraseChoice.equals("Y")||eraseChoice.equals("y")){

@@ -10,10 +10,12 @@ import java.util.Map;
 import java.util.Set;
 
 public class Interface {
+
     FileInput fileInput = new FileInput();
     FolderInput folder = new FolderInput();
     AlleleValidation av = new AlleleValidation();
     RAlleleResultsDB rDB = new RAlleleResultsDB();
+
     private String allele;
     private FileReader fileReader;
     private String oldFileName;
