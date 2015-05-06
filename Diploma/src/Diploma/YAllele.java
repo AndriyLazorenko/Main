@@ -1,5 +1,6 @@
 package Diploma;
 
+
 import java.util.Set;
 
 /**
@@ -7,24 +8,15 @@ import java.util.Set;
  */
 public class YAllele extends Allele {
 
-//    private int ?? = 0;
-//    private int ?? = 0;
-//    private int ?? = 0;
-//    private int ?? = 0;
-//    private double ??Freq;
-//    private double ??Freq;
-//    private double ??Freq;
-//    private double ??Freq;
+    private String variationAllele = "C/T";
 
-    @Override
-    public void erase() {
-
+    public YAllele () {
+        searchMethod = new Before();
     }
 
     @Override
-    public Set<String> processR() {
-
-
+    public Set<String> methodOfSearch() {
+        setOutputSet(searchMethod.compute(variationAllele, getSet()));
         return getOutputSet();
     }
 }

@@ -14,7 +14,46 @@ public class Interface {
     FileInput fileInput = new FileInput();
     FolderInput folder = new FolderInput();
     AlleleValidation av = new AlleleValidation();
+
+    // Allele databases classes declarations
+
+//    AAlleleResultsDB aDB = new AAlleleResultsDB();
+//    BAlleleResultsDB bDB = new BAlleleResultsDB();
+//    CAlleleResultsDB cDB = new CAlleleResultsDB();
+//    DAlleleResultsDB dDB = new DAlleleResultsDB();
+//    GAlleleResultsDB gDB = new GAlleleResultsDB();
+//    GermlineAlleleResultsDB germDB = new GermlineAlleleResultsDB();
+//    HAlleleResultsDB hDB = new HAlleleResultsDB();
+//    KAlleleResultsDB kDB = new KAlleleResultsDB();
+//    MAlleleResultsDB mDB = new MAlleleResultsDB();
+//    NAlleleResultsDB nDB = new NAlleleResultsDB();
     RAlleleResultsDB rDB = new RAlleleResultsDB();
+//    SAlleleResultsDB sDB = new SAlleleResultsDB();
+//    SomaticAlleleResultsDB somaDB = new SomatticAlleleResultsDB();
+//    TAlleleResultsDB tDB = new TAlleleResultsDB();
+//    VAlleleResultsDB vDB = new VAlleleResultsDB();
+//    WAlleleResultsDB wDB = new WAlleleResultsDB();
+//    YAlleleResultsDB yDB = new YAlleleResultsDB();
+
+    //Construction of new objects of allele classes
+
+//                AAllele a = new AAllele();
+//                BAllele b = new BAllele();
+//                CAllele c = new CAllele();
+//                DAllele d = new DAllele();
+//                GAllele g = new GAllele();
+//                GermlineAllele germ = new GermlineAllele();
+//                HAllele h = new HAllele();
+//                KAllele k = new KAllele();
+//                MAllele m = new MAllele();
+//                NAllele n = new NAllele();
+    RAllele r = new RAllele();
+//                SAllele s = new SAllele();
+//                SomaticAllele soma = new SomaticAllele();
+//                TAllele t = new TAllele();
+//                VAllele v = new VAllele();
+//                WAllele w = new WAllele();
+    YAllele y = new YAllele();
 
     private String allele;
     private FileReader fileReader;
@@ -26,31 +65,12 @@ public class Interface {
     private String folderLocation;
     private Map<String,FileReader> folderFiles;
     private int counterOfFilesProcessed=0;
+    private String variationAllele;
 
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
     public void consoleMenu () throws IOException {
         while (carryOn) {
-
-            //Construction of new objects of allele classes
-
-            //    AAllele a = new AAllele();
-            //    BAllele b = new BAllele();
-            //    CAllele c = new CAllele();
-            //    DAllele d = new DAllele();
-            //    GAllele g = new GAllele();
-            //    GermlineAllele germ = new GermlineAllele();
-            //    HAllele h = new HAllele();
-            //    KAllele k = new KAllele();
-            //    MAllele m = new MAllele();
-            //    NAllele n = new NAllele();
-            RAllele r = new RAllele();
-            //    SAllele s = new SAllele();
-            //    SomaticAllele soma = new SomaticAllele();
-            //    TAllele t = new TAllele();
-            //    VAllele v = new VAllele();
-            //    WAllele w = new WAllele();
-            //    YAllele y = new YAllele();
 
             //Algorithm for processing entire folder
 
@@ -69,18 +89,14 @@ public class Interface {
                 //Processing specific Allele depending on input
 
                 if (allele.equals("R")) {
+                    variationAllele = r.getVariationAllele();
                     folderFiles = folder.input(folderLocation);
                     for (String s:folderFiles.keySet()){
                         r.process(folderFiles.get(s), s);
-                        set = r.processR();
-                        rDB.setTt(rDB.getTt() + r.getTt());
-                        rDB.setTa(rDB.getTa() + r.getTa());
-                        rDB.setCa(rDB.getCa() + r.getCa());
-                        rDB.setCt(rDB.getCt() + r.getCt());
-                        rDB.setTotalSNP(rDB.getTotalSNP() + r.getTotalSNP());
-                        rDB.setI(rDB.getI() + r.getI());
+                        set = r.methodOfSearch();//1st copying of Ountputset
+                        rDB.parsingDBBehaviour.addToDB(set);//2nd copying of outputset
                         counterOfFilesProcessed++;
-                        r.erase();
+                        r.erase();//all variables get killed
                         set.clear();
                     }
                     System.out.println(counterOfFilesProcessed+" files processed from folder");
@@ -96,7 +112,8 @@ public class Interface {
                         System.out.println("Do you want to write database to file? Y/N");
                         String choiceWrite = br.readLine();
                         if (choiceWrite.equals("Y") || choiceWrite.equals("y")) {
-                            rDB.regularize();
+                            rDB.parsingDBBehaviour.compute();
+                            rDB.setOutputSet(rDB.parsingDBBehaviour.creatingOutputSet(variationAllele));
                             rDB.toFile(folderLocation+"\\\\\\\\"+"smth.txt");
                             rDB.clearSet();
                         }
@@ -106,7 +123,8 @@ public class Interface {
                         System.out.println("Do you want to print database? Y/N");
                         String choicePrint = br.readLine();
                         if (choicePrint.equals("Y") || choicePrint.equals("y")) {
-                            rDB.regularize();
+                            rDB.parsingDBBehaviour.compute();
+                            rDB.setOutputSet(rDB.parsingDBBehaviour.creatingOutputSet(variationAllele));
                             rDB.print();
                             rDB.clearSet();
                         }
@@ -135,22 +153,19 @@ public class Interface {
                 //Processing specific Allele depending on input
 
                 if (allele.equals("R")) {
+                    variationAllele = r.getVariationAllele();
                     r.process(fileReader, oldFileName);
-                    set = r.processR();
+                    set = r.methodOfSearch();
                     r.print();
                     r.toFile();
+                    r.erase();
 
                     //Adding to database upon choice
 
                     System.out.println("Do you want to add these results to overall R-allele results database? Y/N");
                     String choice = br.readLine();
                     if (choice.equals("Y") || choice.equals("y")) {
-                        rDB.setTt(rDB.getTt() + r.getTt());
-                        rDB.setTa(rDB.getTa() + r.getTa());
-                        rDB.setCa(rDB.getCa() + r.getCa());
-                        rDB.setCt(rDB.getCt() + r.getCt());
-                        rDB.setTotalSNP(rDB.getTotalSNP() + r.getTotalSNP());
-                        rDB.setI(rDB.getI() + r.getI());
+                        rDB.parsingDBBehaviour.addToDB(set);
                     }
 
                     //Working with database upon choice
@@ -164,7 +179,8 @@ public class Interface {
                         System.out.println("Do you want to write database to file? Y/N");
                         String choiceWrite = br.readLine();
                         if (choiceWrite.equals("Y") || choiceWrite.equals("y")) {
-                            rDB.regularize();
+                            rDB.parsingDBBehaviour.compute();
+                            rDB.setOutputSet(rDB.parsingDBBehaviour.creatingOutputSet(variationAllele));
                             rDB.toFile(oldFileName);
                             rDB.clearSet();
                         }
@@ -174,7 +190,8 @@ public class Interface {
                         System.out.println("Do you want to print database? Y/N");
                         String choicePrint = br.readLine();
                         if (choicePrint.equals("Y") || choicePrint.equals("y")) {
-                            rDB.regularize();
+                            rDB.parsingDBBehaviour.compute();
+                            rDB.setOutputSet(rDB.parsingDBBehaviour.creatingOutputSet(variationAllele));
                             rDB.print();
                             rDB.clearSet();
                         }

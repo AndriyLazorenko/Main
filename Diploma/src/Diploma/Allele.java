@@ -7,12 +7,23 @@ import java.util.Set;
 public abstract class Allele {
 
     private String fileName;
-    private int i = 0;
     private String line = null;
     private Set<String> set = new LinkedHashSet<>();
+    SearchMethod searchMethod;
     private Set<String> outputSet = new LinkedHashSet<>();
-    private int totalSNP = 0;
-    private double totalFreq;
+
+    public Set<String> getOutputSet() {
+        return outputSet;
+    }
+
+    public void setOutputSet(Set<String> outputSet) {
+        this.outputSet = outputSet;
+    }
+
+    public Allele (){
+    }
+
+    public abstract Set<String> methodOfSearch ();
 
     //Parsing filereader into LinkedHashSet
 
@@ -30,9 +41,11 @@ public abstract class Allele {
         setFileName(oldFileName.replace(".txt", "_RESULTS.txt"));
     }
 
-    public abstract void erase ();
-
-    public abstract Set<String> processR();
+    public void erase() {
+        setOutputSet(new LinkedHashSet<String>());
+        setSet(new LinkedHashSet<String>());
+        searchMethod.erase();
+    }
 
     //Writing the result in file
 
@@ -51,22 +64,6 @@ public abstract class Allele {
         for (String s : getOutputSet()) {
             System.out.println(s);
         }
-    }
-
-    public int getTotalSNP() {
-        return totalSNP;
-    }
-
-    public void setTotalSNP(int totalSNP) {
-        this.totalSNP = totalSNP;
-    }
-
-    public int getI() {
-        return i;
-    }
-
-    public void setI(int i) {
-        this.i = i;
     }
 
     public String getLine() {
@@ -90,23 +87,8 @@ public abstract class Allele {
         return set;
     }
 
-    public double getTotalFreq() {
-        return totalFreq;
-    }
-
-    public void setTotalFreq(double totalFreq) {
-        this.totalFreq = totalFreq;
-    }
-
     public void setSet(Set<String> set) {
         this.set = set;
     }
 
-    public Set<String> getOutputSet() {
-        return outputSet;
-    }
-
-    public void setOutputSet(Set<String> outputSet) {
-        this.outputSet = outputSet;
-    }
 }
