@@ -1,4 +1,4 @@
-package ArtCode.hometask4;
+package ArtCode.hometask4.Scanner;
 
 /**
  * Created by Master on 08-May-15.
