@@ -4,7 +4,7 @@ package ArtCode.hometask4.Tree;
 /**
  * Created by Master on 25-Apr-15.
  */
-public class BinarySearchTree<T extends Comparable> implements ITree<T> {
+public class BinarySearchTree <T extends Comparable> implements ITree<T> {
 
     private TNode<T> root = null;
     private int size;
