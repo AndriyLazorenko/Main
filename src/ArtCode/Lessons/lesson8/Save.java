@@ -11,4 +11,5 @@ import java.lang.annotation.Target;
  * Created by Master on 16-May-15.
  */
 public @interface Save {
+    public String name();
 }
