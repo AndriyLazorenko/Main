@@ -1,9 +1,6 @@
 package ArtCode.Lessons.lesson9;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -15,7 +12,10 @@ import java.net.URL;
 public class TestLoading {
     public static void main(String[] args) throws URISyntaxException, IOException {
 //        URI uri = new URI();
-        download("http://www.ex.ua/load/166389661","/home/serhii/IdeaProjects/ACP6/temp/music.mp3");
+        System.out.println("Insert an URL: ");
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String url = br.readLine();
+        download(url,"G:\\Music\\music.mp3");
     }
 
     public static void download(String url, String dest){

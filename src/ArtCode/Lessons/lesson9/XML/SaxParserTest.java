@@ -18,7 +18,6 @@ public class SaxParserTest {
         SAXParserFactory factory = SAXParserFactory.newInstance();
         SAXParser parser = factory.newSAXParser();
         parser.parse(STRING, new MySaxHandler());
-
     }
 }
 

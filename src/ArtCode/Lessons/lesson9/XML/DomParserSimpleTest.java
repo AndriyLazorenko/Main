@@ -12,7 +12,7 @@ import java.io.IOException;
  * Created by Master on 22-May-15.
  */
 public class DomParserSimpleTest {
-    public static final String PATHNAME = "/home/serhii/IdeaProjects/ACP6/temp/team.xml";
+    public static final String PATHNAME = "C:\\Users\\Master\\IdeaProjects\\New\\src\\ArtCode\\Temp\\team.xml";
 
     public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException {
         DocumentBuilderFactory factory =
@@ -24,19 +24,19 @@ public class DomParserSimpleTest {
         Element root = document.getDocumentElement();
 //        showElementInfo(root);
 
-        NodeList children = root.getChildNodes();
-        for (int i = 0; i < children.getLength(); i++) {
-            Node node = children.item(i);
-            if(node.getNodeType() == Node.ELEMENT_NODE){
-                Element element = (Element) node;
-                System.out.printf("<%s>", element.getTagName());
-            } else if(node.getNodeType() == Node.TEXT_NODE){
-                Text text = (Text) node;
-                String content = text.getNodeValue();
-                System.out.println(content);
-            }
-
-        }
+//        NodeList children = root.getChildNodes();
+//        for (int i = 0; i < children.getLength(); i++) {
+//            Node node = children.item(i);
+//            if(node.getNodeType() == Node.ELEMENT_NODE){
+//                Element element = (Element) node;
+//                System.out.printf("<%s>", element.getTagName());
+//            } else if(node.getNodeType() == Node.TEXT_NODE){
+//                Text text = (Text) node;
+//                String content = text.getNodeValue();
+//                System.out.println(content);
+//            }
+//
+//        }
 
         System.out.println("RESULT");
         String content = DomParsingUtils.getTextXMLContent(root);

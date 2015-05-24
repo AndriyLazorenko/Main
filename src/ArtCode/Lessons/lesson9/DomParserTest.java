@@ -14,14 +14,16 @@ import java.io.IOException;
  */
 public class DomParserTest{
     public static void main(String[] args) {
+        MyDOMParser parser = new MyDOMParser();
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         try {
             DocumentBuilder builder = factory.newDocumentBuilder();
             Document document = builder.parse(new File
                     ("C:\\Users\\Master\\IdeaProjects\\New\\src\\ArtCode\\Lessons\\lesson9\\info.xml"));
             Element element = document.getDocumentElement();
-            showElement(element);
-            showXML(element);
+//            showElement(element);
+//            showXML(element);
+            System.out.println(parser.getXMLcontent(element));
 //            someActions(element);
         } catch (ParserConfigurationException e) {
             e.printStackTrace();
@@ -76,3 +78,4 @@ public class DomParserTest{
         }
     }
 }
+
